@@ -12,9 +12,9 @@ public class Input {
         int firstDigitIndex = findFirstDigitIndex(input);
 
         this.delimiter = DelimiterParser.parse(input.substring(0, firstDigitIndex));
-        String delimiterList = this.delimiter.getDelimiterList();
+        String[] numberList = this.delimiter.splitByDelimiter(input.substring(firstDigitIndex));
 
-        this.numbers = NumberParser.parse(input.substring(firstDigitIndex), delimiterList);
+        this.numbers = NumberParser.parse(numberList);
     }
 
     private int findFirstDigitIndex(String input) {

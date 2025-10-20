@@ -7,14 +7,12 @@ import java.util.List;
 
 public class NumberParser {
 
-    public static Numbers parse(String rawNumberList, String delimiterList) {
-        if (rawNumberList == null || rawNumberList.isEmpty()) {
+    public static Numbers parse(String[] numberList) {
+        if (numberList == null || numberList.length == 0) {
             return new Numbers(new ArrayList<>());
         }
 
-        String[] splitNumbers = rawNumberList.split(delimiterList);
-
-        List<Number> parsedNumbers = Arrays.stream(splitNumbers)
+        List<Number> parsedNumbers = Arrays.stream(numberList)
                 .map(NumberParser::parseSingleNumber)
                 .toList();
 
