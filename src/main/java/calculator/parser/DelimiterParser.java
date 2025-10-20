@@ -1,4 +1,4 @@
-package calculator.service;
+package calculator.parser;
 
 import calculator.model.Delimiter;
 import java.util.regex.Pattern;

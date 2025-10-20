@@ -1,7 +1,7 @@
 package calculator.model;
 
-import calculator.service.DelimiterParser;
-import calculator.service.NumberParser;
+import calculator.parser.DelimiterParser;
+import calculator.parser.NumberParser;
 
 public class Input {
 
