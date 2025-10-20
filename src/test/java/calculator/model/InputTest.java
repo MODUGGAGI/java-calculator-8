@@ -14,8 +14,10 @@ class InputTest {
         Input input = new Input("1,2;3");
 
         //when
+        Number result = input.getNumbers().calculateSum();
+
         //then
-        assertThat(input.getNumbers().getNumberList()).containsExactly(1L, 2L, 3L);
+        assertThat(result).isEqualTo(6L);
     }
 
     @Test
@@ -25,8 +27,10 @@ class InputTest {
         Input input = new Input("//@\\n1@2;3");
 
         //when
+        Number result = input.getNumbers().calculateSum();
+
         //then
-        assertThat(input.getNumbers().getNumberList()).containsExactly(1L, 2L, 3L);
+        assertThat(result).isEqualTo(6L);
     }
 
     @Test
@@ -36,7 +40,35 @@ class InputTest {
         Input input = new Input("//@\\n//###\\n1@2###3;4");
 
         //when
+        Number result = input.getNumbers().calculateSum();
+
         //then
-        assertThat(input.getNumbers().getNumberList()).containsExactly(1L, 2L, 3L, 4L);
+        assertThat(result).isEqualTo(10L);
+    }
+
+    @Test
+    @DisplayName("빈 문자열이 입력된 경우")
+    public void 빈_문자열() {
+        //given
+        Input input = new Input("");
+
+        //when
+        Number result = input.getNumbers().calculateSum();
+
+        //then
+        assertThat(result).isEqualTo(0);
+    }
+
+    @Test
+    @DisplayName("소수가 포함된 경우")
+    public void 소수_포함() {
+        //given
+        Input input = new Input("1.5,2.3;3.2");
+
+        //when
+        Number result = input.getNumbers().calculateSum();
+
+        //then
+        assertThat(result).isEqualTo(7L);
     }
 }
