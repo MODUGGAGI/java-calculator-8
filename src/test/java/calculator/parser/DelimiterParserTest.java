@@ -1,4 +1,4 @@
-package calculator.service;
+package calculator.parser;
 
 import calculator.model.Delimiter;
 import org.junit.jupiter.api.DisplayName;
@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 class DelimiterParserTest {
 
@@ -15,9 +15,11 @@ class DelimiterParserTest {
     @DisplayName("커스텀 구분자가 입력되지 않은 경우")
     void 구분자_없는_경우() {
         //given
-        Delimiter delimiter = DelimiterParser.parse("");
+        String rawDelimiterList = "";
 
         //when
+        Delimiter delimiter = DelimiterParser.parse(rawDelimiterList);
+
         //then
         assertThat(delimiter.getDelimiterList()).isEqualTo(",|;");
     }
@@ -26,9 +28,11 @@ class DelimiterParserTest {
     @DisplayName("커스텀 구분자가 1개 입력된 경우")
     void 구분자_1개() {
         //given
-        Delimiter delimiterList = DelimiterParser.parse("//@\\n");
+        String rawDelimiterList = "//@\\n";
 
         //when
+        Delimiter delimiterList = DelimiterParser.parse(rawDelimiterList);
+
         //then
         assertThat(delimiterList.getDelimiterList()).isEqualTo(",|;|\\Q@\\E");
     }
@@ -37,11 +41,26 @@ class DelimiterParserTest {
     @DisplayName("커스텀 구분자가 여러글자로 입력된 경우")
     void 구분자_1개_여러글자() {
         //given
-        Delimiter delimiterList = DelimiterParser.parse("//@#$\\n");
+        String rawDelimiterList = "//@#$\\n";
 
         //when
+        Delimiter delimiterList = DelimiterParser.parse(rawDelimiterList);
+
         //then
         assertThat(delimiterList.getDelimiterList()).isEqualTo(",|;|\\Q@#$\\E");
+    }
+
+    @Test
+    @DisplayName("커스텀 구분자가 여러개 입력된 경우")
+    void 구분자_여러개() {
+        //given
+        String rawDelimiterList = "//@\\n//#\\n";
+
+        //when
+        Delimiter delimiterList = DelimiterParser.parse(rawDelimiterList);
+
+        //then
+        assertThat(delimiterList.getDelimiterList()).isEqualTo(",|;|\\Q@\\E|\\Q#\\E");
     }
 
     @ParameterizedTest
@@ -66,17 +85,6 @@ class DelimiterParserTest {
         //then
         assertThatThrownBy(() -> DelimiterParser.parse(rawDelimiterList))
                 .isInstanceOf(IllegalArgumentException.class);
-    }
-
-    @Test
-    @DisplayName("커스텀 구분자가 여러개 입력된 경우")
-    void 구분자_여러개() {
-        //given
-        Delimiter delimiterList = DelimiterParser.parse("//@\\n//#\\n");
-
-        //when
-        //then
-        assertThat(delimiterList.getDelimiterList()).isEqualTo(",|;|\\Q@\\E|\\Q#\\E");
     }
 
     @ParameterizedTest
